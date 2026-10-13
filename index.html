@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Trilha Arduino 2026: o que mudou desde 2021, o que aprender primeiro e a ordem dos módulos.">
+<title>Trilha Arduino 2026</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: coluna única de leitura (~74ch) com índice fixo no topo; tabelas rolam dentro do próprio contêiner. */
+:root{color-scheme:light;
+  --bg:#f3f5f6; --surface:#ffffff; --fg:#17262b; --muted:#53666d; --line:#d3dce0;
+  --accent:#0a6b78; --accent-soft:#dcedf0;
+  --ok:#1d7a3f; --ok-soft:#dff1e5; --warn:#a15c00; --warn-soft:#f8ebd3; --bad:#a3302b; --bad-soft:#f6dedc;
+  --f-display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1a1e; --surface:#16252a; --fg:#e4edf0; --muted:#9bb0b7; --line:#2c4047;
+  --accent:#5cc3d1; --accent-soft:#17353b;
+  --ok:#6fd09a; --ok-soft:#173a26; --warn:#f0b255; --warn-soft:#3c2d10; --bad:#f08c86; --bad-soft:#40201e; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1a1e; --surface:#16252a; --fg:#e4edf0; --muted:#9bb0b7; --line:#2c4047;
+  --accent:#5cc3d1; --accent-soft:#17353b;
+  --ok:#6fd09a; --ok-soft:#173a26; --warn:#f0b255; --warn-soft:#3c2d10; --bad:#f08c86; --bad-soft:#40201e; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 var(--f-body);padding-inline:16px;padding-block:0 64px}
+.wrap{max-width:860px;margin-inline:auto;min-width:0}
+header.top{padding-block:32px 8px}
+.kicker{font:500 12px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h1{font:700 clamp(2rem,6vw,3rem)/1.05 var(--f-display);margin:12px 0 12px;text-wrap:balance}
+.lede{font-size:1.125rem;color:var(--muted);max-width:62ch;margin:0}
+nav.idx{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);margin-top:24px;margin-inline:-16px;padding:10px 16px;display:flex;gap:6px;overflow-x:auto}
+nav.idx a{flex:none;font:500 13px/1 var(--f-mono);color:var(--fg);text-decoration:none;padding:8px 10px;border:1px solid var(--line);border-radius:4px;background:var(--surface)}
+nav.idx a:hover,nav.idx a:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
+section{padding-top:40px;min-width:0}
+h2{font:600 1.625rem/1.2 var(--f-display);margin:0 0 6px;text-wrap:balance}
+h3{font:600 1.125rem/1.3 var(--f-display);margin:0 0 6px}
+p{margin:0 0 12px;max-width:68ch}
+.sub{color:var(--muted);margin-bottom:20px}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 20px}
+.chip{display:inline-block;font:500 12px/1 var(--f-mono);padding:5px 8px;border-radius:3px;white-space:nowrap}
+.c-ok{background:var(--ok-soft);color:var(--ok)}
+.c-warn{background:var(--warn-soft);color:var(--warn)}
+.c-bad{background:var(--bad-soft);color:var(--bad)}
+.c-info{background:var(--accent-soft);color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px;min-width:0}
+.card ul{margin:8px 0 0;padding-left:18px}
+.card li{margin-bottom:6px}
+.card .tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:14.5px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font:600 12px/1.2 var(--f-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);background:var(--bg)}
+tr:last-child td{border-bottom:0}
+td.m,.m{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:13.5px}
+td.k{font-weight:600;white-space:nowrap}
+.three{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
+.three .card h3{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.road{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 16px;display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;min-width:0}
+.step input{width:20px;height:20px;margin:3px 0 0;accent-color:var(--accent)}
+.step label{display:block;cursor:pointer}
+.step .ttl{font:600 1.0625rem/1.3 var(--f-display)}
+.step .meta{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.step p{margin:0;color:var(--muted);font-size:15px}
+.step.done .ttl{text-decoration:line-through;color:var(--muted)}
+.prog{font:500 13px/1 var(--f-mono);color:var(--muted);margin:0 0 12px}
+.q{counter-reset:q;list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.q li{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px 16px}
+.src{margin:0;padding-left:18px;font-size:14px}
+.src li{margin-bottom:6px;overflow-wrap:anywhere}
+.src a{color:var(--accent)}
+a{color:var(--accent)}
+.note{border-left:3px solid var(--warn);background:var(--warn-soft);padding:10px 14px;border-radius:0 4px 4px 0;max-width:68ch}
+footer{margin-top:48px;color:var(--muted);font-size:13px}
+button.theme{font:500 12px/1 var(--f-mono);color:var(--muted);background:none;border:1px solid var(--line);border-radius:4px;padding:6px 8px;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div class="kicker">Referência: 12 out 2026</div>
+  <h1>Trilha Arduino 2026</h1>
+  <p class="lede">O que mudou no ecossistema desde 2021, o que aprender primeiro e a ordem dos módulos. Pesquisa feita em changelogs e páginas de release; cada dado traz seu grau de confirmação.</p>
+</header>
+
+<nav class="idx" aria-label="Seções">
+  <a href="#mudancas">Mudanças</a>
+  <a href="#versoes">Versões</a>
+  <a href="#comparativo">2021 × 2026</a>
+  <a href="#recomendacoes">Recomendações</a>
+  <a href="#roadmap">Roadmap</a>
+  <a href="#perguntas">Perguntas</a>
+  <a href="#fontes">Fontes</a>
+</nav>
+
+<section id="mudancas">
+  <h2>O que mudou, por impacto prático</h2>
+  <p class="sub">O Arduino deixou de ser sinônimo de UNO com AVR. Hoje cobre do 8 bits clássico a placas com Linux e IA, e os cores oficiais migram do Mbed OS para o Zephyr.</p>
+  <div class="legend" aria-label="Legenda">
+    <span class="chip c-ok">confirmado em fonte primária</span>
+    <span class="chip c-warn">só fonte secundária</span>
+    <span class="chip c-bad">não verificado</span>
+  </div>
+  <div class="grid">
+    <article class="card">
+      <h3>1. Hardware</h3>
+      <div class="tags"><span class="chip c-ok">UNO R4</span><span class="chip c-warn">Nano R4</span><span class="chip c-warn">UNO Q</span></div>
+      <ul>
+        <li><b>UNO R4 (2023):</b> Renesas RA4M1, Cortex-M4 a 48 MHz, 32 kB de SRAM, 256 kB de flash, USB-C, entrada até 24 V, CAN e DAC de 12 bits. A versão WiFi leva um ESP32-S3 como segundo processador. Mantém pinagem e 5 V do R3.</li>
+        <li><b>Nano R4 (jul 2025):</b> mesmo RA4M1 em formato Nano, com Qwiic e pino VRTC para o RTC.</li>
+        <li><b>UNO Q (out 2025):</b> Qualcomm QRB2210 rodando Debian, mais STM32U585 (Cortex-M33) rodando sketches sobre Zephyr. Preço de US$ 44 vem de fonte secundária.</li>
+        <li><b>VENTUNO Q:</b> lançada na Embedded World 2026. <span class="chip c-bad">especificações não verificadas</span></li>
+        <li><b>Nano ESP32:</b> data de lançamento não verificada. Nano Matter consta entre as seis placas open-source de 2025.</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h3>2. Corporativo</h3>
+      <div class="tags"><span class="chip c-warn">fechamento não confirmado</span></div>
+      <ul>
+        <li>A Qualcomm anunciou a compra em 7 out 2025. Uma fonte diz que dependia de aprovação regulatória, outra diz que já adquiriu.</li>
+        <li>A empresa afirma que marca, ferramentas e suporte a vários fabricantes continuam. Parte da comunidade teme menos suporte a chips de terceiros. Isso é risco a acompanhar, não fato.</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h3>3. IDE e CLI</h3>
+      <div class="tags"><span class="chip c-ok">IDE 2.3.10</span><span class="chip c-ok">CLI 1.5.1</span></div>
+      <ul>
+        <li>A IDE 2.3.10 usa o CLI 1.5.1 e ganhou compilação limpa com Shift+clique no botão Verificar.</li>
+        <li>Desde o CLI 1.4.0 existem comandos <span class="m">profile</span> para travar versões de bibliotecas e plataformas por projeto.</li>
+        <li>A IDE 2.x trouxe depurador, autocompletar e verificação/upload cancelável (2.3.3).</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h3>4. Cores e frameworks</h3>
+      <div class="tags"><span class="chip c-ok">ESP32 3.3.12</span><span class="chip c-ok">ESP-IDF 6.1</span></div>
+      <ul>
+        <li>O UNO Q foi o primeiro com core Zephyr estável. A migração do Mbed OS segue em andamento.</li>
+        <li>O core ESP32 estável é o 3.3.12 (IDF 5.5.5). O 4.0.0-RC1 (IDF 6.1) é pré-lançamento.</li>
+        <li>As libs do 3.3.12 cobrem C3, C5, C6, H2 e P4, com Matter, Zigbee e OpenThread.</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h3>5. PlatformIO</h3>
+      <div class="tags"><span class="chip c-ok">Core 6.1.19</span><span class="chip c-warn">ESP32 3.x: fork</span></div>
+      <ul>
+        <li>Para ESP32, o Arduino 3.x não tem suporte oficial no PlatformIO. O fork pioarduino cobre a lacuna e fica atrás do core oficial.</li>
+        <li>Suporte do PlatformIO ao UNO R4: <span class="chip c-bad">não verificado</span></li>
+      </ul>
+    </article>
+  </div>
+  <p class="note" style="margin-top:16px"><b>Fora do escopo desta pesquisa:</b> Node-RED, Home Assistant, bibliotecas MQTT, TinyML, testes e CI. Entram quando chegarmos aos módulos 7 a 9. A coluna 2021 da tabela comparativa vem do meu conhecimento prévio e não foi verificada.</p>
+</section>
+
+<section id="versoes">
+  <h2>Versões confirmadas</h2>
+  <p class="sub">Números exatos nas páginas de release, em 12 out 2026.</p>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Componente</th><th>Versão</th><th>Data</th><th>Observação</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Arduino IDE</td><td class="m">2.3.10</td><td class="m">9 jun 2026</td><td>Usa CLI 1.5.1</td></tr>
+      <tr><td class="k">Arduino CLI</td><td class="m">1.5.1</td><td class="m">5 jun 2026</td><td>Corrige recompilação indevida</td></tr>
+      <tr><td class="k">core arduino-esp32</td><td class="m">3.3.12</td><td class="m">18 set 2026</td><td>Baseado em ESP-IDF 5.5.5</td></tr>
+      <tr><td class="k">core arduino-esp32</td><td class="m">4.0.0-RC1</td><td class="m">23 set 2026</td><td><span class="chip c-warn">pré-lançamento</span> IDF 6.1</td></tr>
+      <tr><td class="k">ESP-IDF</td><td class="m">6.1</td><td class="m">27 ago 2026</td><td>S31 em preview; 6.0.3 saiu em 2 set</td></tr>
+      <tr><td class="k">PlatformIO Core</td><td class="m">6.1.19</td><td class="m">4 fev (ano inferido: 2026)</td><td>Página não mostra o ano</td></tr>
+      <tr><td class="k">UNO R4</td><td class="m">—</td><td class="m">2023</td><td>Placa; o RA4M1 é anterior</td></tr>
+      <tr><td class="k">Nano R4</td><td class="m">—</td><td class="m">jul 2025</td><td>Notícia de 25 jul 2025</td></tr>
+      <tr><td class="k">UNO Q + App Lab</td><td class="m">—</td><td class="m">7 out 2025</td><td>Anúncio junto com a compra</td></tr>
+    </tbody></table></div>
+</section>
+
+<section id="comparativo">
+  <h2>2021 × out 2026</h2>
+  <p class="sub">Quando a comparação direta não faz sentido, a linha explica a mudança de contexto.</p>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Área</th><th>2021 (memória)</th><th>Out 2026 (verificado)</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Hardware</td><td>UNO R3 com AVR de 8 bits e 2 kB de SRAM; ESP32 como mundo à parte</td><td>R4 (ARM), Nano R4, UNO Q (MPU + MCU); catálogo oficial com ARM e Zephyr</td></tr>
+      <tr><td class="k">IDE</td><td>1.8.x; a 2.0 ainda em beta</td><td>2.3.10 estável, sobre o CLI 1.5.1</td></tr>
+      <tr><td class="k">Bibliotecas e cores</td><td>Mbed e AVR; core ESP32 1.x/2.x</td><td>Zephyr em ascensão; ESP32 3.3.x (IDF 5.5); 4.0 em RC</td></tr>
+      <tr><td class="k">Depuração e testes</td><td>Quase só <span class="m">Serial.print</span></td><td>Depurador na IDE 2.x; testes e CI no core ESP32 (Wokwi)</td></tr>
+      <tr><td class="k">Conectividade e IoT</td><td>WiFi via ESP ou shield</td><td>Matter, Zigbee e Thread nativos no ESP32; OTA com checksum SHA-256</td></tr>
+      <tr><td class="k">Arquitetura de firmware</td><td>Superloop com <span class="m">delay()</span></td><td>FreeRTOS no ESP32 e Zephyr no UNO Q como base</td></tr>
+      <tr><td class="k">Ferramentas profissionais</td><td>PlatformIO dominante</td><td>PlatformIO parado para ESP32 3.x (usa fork); CLI com <span class="m">profile</span></td></tr>
+    </tbody></table></div>
+</section>
+
+<section id="recomendacoes">
+  <h2>O que priorizar</h2>
+  <p class="sub">Nenhuma compra antes de saber o que você já tem na bancada.</p>
+  <div class="three">
+    <article class="card">
+      <h3>Aprender primeiro <span class="chip c-ok">agora</span></h3>
+      <ul>
+        <li><b>IDE 2.3.10</b> para a retomada, sem atrito.</li>
+        <li><b>UNO R4</b> como alvo clássico e <b>ESP32 com core 3.3.x</b> como alvo moderno. Evite o 4.0 RC para estudar.</li>
+        <li>Depois, <b>CLI + VS Code + Git</b>, onde moram a automação e a reprodutibilidade.</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h3>Pode esperar <span class="chip c-info">depois</span></h3>
+      <ul>
+        <li>Depurador de hardware e FreeRTOS a fundo.</li>
+        <li>ESP-IDF puro.</li>
+        <li>PlatformIO: só se aceitar o fork pioarduino para ESP32.</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h3>Só com projeto <span class="chip c-warn">se couber</span></h3>
+      <ul>
+        <li>UNO Q e App Lab, se precisar de Linux ou visão.</li>
+        <li>TinyML.</li>
+        <li>Home Assistant.</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<section id="roadmap">
+  <h2>Roadmap</h2>
+  <p class="sub">A ordem é uma sequência de fato: cada módulo usa o anterior. O módulo 7 sobe antes do 6 para que máquinas de estados e código não bloqueante apareçam cedo. Marque os módulos concluídos; o navegador guarda a marcação só neste aparelho.</p>
+  <p class="prog" id="prog" aria-live="polite">0 de 9 etapas concluídas</p>
+  <ol class="road" id="road">
+    <li class="step"><input type="checkbox" id="s1" data-k="m1"><label for="s1"><span class="ttl">Módulos 1 e 2: retomada e C/C++ aplicado</span><span class="meta"><span class="chip c-info">dificuldade baixa</span></span><p>Diagnóstico rápido; você diz o que quer reforçar. <b>Projeto:</b> PWM e ADC medidos no osciloscópio.</p></label></li>
+    <li class="step"><input type="checkbox" id="s2" data-k="m3"><label for="s2"><span class="ttl">Módulo 3: arquitetura de microcontroladores</span><span class="meta"><span class="chip c-info">média</span></span><p>Timers, interrupções e registradores, comparando RA4M1 e AVR. <b>Projeto:</b> jitter de interrupção medido.</p></label></li>
+    <li class="step"><input type="checkbox" id="s3" data-k="m4"><label for="s3"><span class="ttl">Módulo 4: sensores e instrumentação</span><span class="meta"><span class="chip c-info">média</span></span><p>Condicionamento, ruído e temporização de aquisição. <b>Projeto:</b> aquisição com filtragem e calibração.</p></label></li>
+    <li class="step"><input type="checkbox" id="s4" data-k="m5"><label for="s4"><span class="ttl">Módulo 5: comunicação entre dispositivos</span><span class="meta"><span class="chip c-info">média</span></span><p>UART, I2C, SPI e CAN. <b>Projeto:</b> CAN entre duas placas, analisado com analisador lógico.</p></label></li>
+    <li class="step"><input type="checkbox" id="s5" data-k="m7"><label for="s5"><span class="ttl">Módulo 7: arquitetura e qualidade de firmware</span><span class="meta"><span class="chip c-warn">média a alta</span></span><p>Máquinas de estados, não bloqueante, watchdog e Git. <b>Projeto:</b> firmware modular versionado.</p></label></li>
+    <li class="step"><input type="checkbox" id="s6" data-k="m6"><label for="s6"><span class="ttl">Módulo 6: plataformas e ambientes modernos</span><span class="meta"><span class="chip c-info">média</span></span><p>R4 contra ESP32, CLI e VS Code, critérios de escolha.</p></label></li>
+    <li class="step"><input type="checkbox" id="s7" data-k="m8"><label for="s7"><span class="ttl">Módulo 8: conectividade e IoT</span><span class="meta"><span class="chip c-warn">média a alta</span></span><p>WiFi, MQTT e dashboards. Esta parte ainda precisa de pesquisa própria.</p></label></li>
+    <li class="step"><input type="checkbox" id="s8" data-k="m9"><label for="s8"><span class="ttl">Módulo 9: sistemas embarcados avançados</span><span class="meta"><span class="chip c-bad">alta</span></span><p>OTA, energia, FreeRTOS e diagnóstico de sistema implantado.</p></label></li>
+    <li class="step"><input type="checkbox" id="s9" data-k="m10"><label for="s9"><span class="ttl">Módulo 10: projeto integrador</span><span class="meta"><span class="chip c-bad">alta</span></span><p>Sistema completo, escolhido em conjunto, dos requisitos à documentação.</p></label></li>
+  </ol>
+  <p style="margin-top:12px;color:var(--muted);font-size:14px">Ao fim de cada módulo há uma avaliação; não avançamos se um conceito importante ficar frouxo.</p>
+</section>
+
+<section id="perguntas">
+  <h2>Para personalizar</h2>
+  <p class="sub">Responda aos poucos, na conversa.</p>
+  <ol class="q">
+    <li>Quais placas você já tem, Arduino e de outras marcas?</li>
+    <li>Quais sensores, módulos e instrumentos de bancada: osciloscópio, analisador lógico, multímetro?</li>
+    <li>Que tipo de sistema quer construir? Isso define o projeto integrador.</li>
+  </ol>
+</section>
+
+<section id="fontes">
+  <h2>Fontes</h2>
+  <ul class="src">
+    <li><a href="https://github.com/arduino/arduino-ide/releases">Arduino IDE releases</a></li>
+    <li><a href="https://github.com/arduino/arduino-cli/releases">Arduino CLI releases</a></li>
+    <li><a href="https://github.com/espressif/arduino-esp32/releases">arduino-esp32 releases</a></li>
+    <li><a href="https://github.com/espressif/esp-idf/releases">ESP-IDF releases</a></li>
+    <li><a href="https://github.com/platformio/platformio-core/releases">PlatformIO Core releases</a></li>
+    <li><a href="https://blog.arduino.cc/?p=41854">Arduino Open Source Report 2025</a></li>
+    <li><a href="https://docs.arduino.cc/hardware/uno-q/">Documentação do UNO Q</a></li>
+    <li><a href="https://elektor.com/arduino-uno-r4-wifi">UNO R4 (Elektor)</a></li>
+    <li><a href="https://circuitdigest.com/news/arduino-introduces-nano-r4-featuring-ra4m1-mcu-built-for-space-constrained-applications">Nano R4 (CircuitDigest)</a></li>
+    <li><a href="https://tech.eu/2025/10/07/qualcomm-acquires-arduino-to-supercharge-the-global-maker-movement/">Qualcomm e Arduino (tech.eu)</a></li>
+    <li><a href="https://nz.finance.yahoo.com/news/qualcomm-buys-open-source-electronics-130133002.html">Qualcomm compra Arduino (Reuters)</a></li>
+    <li><a href="https://blog.arduino.cc/2026/03/23/last-call-and-first-details-for-arduino-days-2026/">Arduino Days 2026 e VENTUNO Q</a></li>
+    <li><a href="https://github.com/sivar2311/platform-espressif32-versions">Versões do pioarduino</a></li>
+  </ul>
+  <footer><button class="theme" id="theme" type="button">Alternar tema</button></footer>
+</section>
+</div>
+
+<script>
+(function(){
+  var KEY="trilha-arduino-progresso";
+  var boxes=[].slice.call(document.querySelectorAll("#road input"));
+  var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){}
+  function paint(){
+    var n=0;
+    boxes.forEach(function(b){
+      b.closest(".step").classList.toggle("done",b.checked);
+      if(b.checked)n++;
+    });
+    document.getElementById("prog").textContent=n+" de "+boxes.length+" etapas concluídas";
+  }
+  boxes.forEach(function(b){
+    if(saved[b.dataset.k])b.checked=true;
+    b.addEventListener("change",function(){
+      saved[b.dataset.k]=b.checked;
+      try{localStorage.setItem(KEY,JSON.stringify(saved))}catch(e){}
+      paint();
+    });
+  });
+  paint();
+  document.getElementById("theme").addEventListener("click",function(){
+    var r=document.documentElement;
+    var dark=r.getAttribute("data-theme")==="dark"||(!r.getAttribute("data-theme")&&matchMedia("(prefers-color-scheme: dark)").matches);
+    r.setAttribute("data-theme",dark?"light":"dark");
+  });
+})();
+</script>
+</body>
+</html>
