@@ -95,7 +95,7 @@ button.theme{font:500 12px/1 var(--f-mono);color:var(--muted);background:none;bo
   <a href="#comparativo">2021 × 2026</a>
   <a href="#recomendacoes">Recomendações</a>
   <a href="#roadmap">Roadmap</a>
-  <a href="#perguntas">Perguntas</a>
+  <a href="#material">Material</a>
   <a href="#fontes">Fontes</a>
 </nav>
 
@@ -199,7 +199,7 @@ button.theme{font:500 12px/1 var(--f-mono);color:var(--muted);background:none;bo
       <h3>Aprender primeiro <span class="chip c-ok">agora</span></h3>
       <ul>
         <li><b>IDE 2.3.10</b> para a retomada, sem atrito.</li>
-        <li><b>UNO R4</b> como alvo clássico e <b>ESP32 com core 3.3.x</b> como alvo moderno. Evite o 4.0 RC para estudar.</li>
+        <li><b>UNO R3</b> (que você já tem) como alvo clássico e <b>ESP32 com core 3.3.x</b> como alvo moderno. Evite o 4.0 RC para estudar. O UNO R4 fica como compra opcional.</li>
         <li>Depois, <b>CLI + VS Code + Git</b>, onde moram a automação e a reprodutibilidade.</li>
       </ul>
     </article>
@@ -227,27 +227,34 @@ button.theme{font:500 12px/1 var(--f-mono);color:var(--muted);background:none;bo
   <p class="sub">A ordem é uma sequência de fato: cada módulo usa o anterior. O módulo 7 sobe antes do 6 para que máquinas de estados e código não bloqueante apareçam cedo. Marque os módulos concluídos; o navegador guarda a marcação só neste aparelho.</p>
   <p class="prog" id="prog" aria-live="polite">0 de 9 etapas concluídas</p>
   <ol class="road" id="road">
-    <li class="step"><input type="checkbox" id="s1" data-k="m1"><label for="s1"><span class="ttl">Módulos 1 e 2: retomada e C/C++ aplicado</span><span class="meta"><span class="chip c-info">dificuldade baixa</span></span><p>Diagnóstico rápido; você diz o que quer reforçar. <b>Projeto:</b> PWM e ADC medidos no osciloscópio.</p></label></li>
-    <li class="step"><input type="checkbox" id="s2" data-k="m3"><label for="s2"><span class="ttl">Módulo 3: arquitetura de microcontroladores</span><span class="meta"><span class="chip c-info">média</span></span><p>Timers, interrupções e registradores, comparando RA4M1 e AVR. <b>Projeto:</b> jitter de interrupção medido.</p></label></li>
-    <li class="step"><input type="checkbox" id="s3" data-k="m4"><label for="s3"><span class="ttl">Módulo 4: sensores e instrumentação</span><span class="meta"><span class="chip c-info">média</span></span><p>Condicionamento, ruído e temporização de aquisição. <b>Projeto:</b> aquisição com filtragem e calibração.</p></label></li>
-    <li class="step"><input type="checkbox" id="s4" data-k="m5"><label for="s4"><span class="ttl">Módulo 5: comunicação entre dispositivos</span><span class="meta"><span class="chip c-info">média</span></span><p>UART, I2C, SPI e CAN. <b>Projeto:</b> CAN entre duas placas, analisado com analisador lógico.</p></label></li>
-    <li class="step"><input type="checkbox" id="s5" data-k="m7"><label for="s5"><span class="ttl">Módulo 7: arquitetura e qualidade de firmware</span><span class="meta"><span class="chip c-warn">média a alta</span></span><p>Máquinas de estados, não bloqueante, watchdog e Git. <b>Projeto:</b> firmware modular versionado.</p></label></li>
-    <li class="step"><input type="checkbox" id="s6" data-k="m6"><label for="s6"><span class="ttl">Módulo 6: plataformas e ambientes modernos</span><span class="meta"><span class="chip c-info">média</span></span><p>R4 contra ESP32, CLI e VS Code, critérios de escolha.</p></label></li>
-    <li class="step"><input type="checkbox" id="s7" data-k="m8"><label for="s7"><span class="ttl">Módulo 8: conectividade e IoT</span><span class="meta"><span class="chip c-warn">média a alta</span></span><p>WiFi, MQTT e dashboards. Esta parte ainda precisa de pesquisa própria.</p></label></li>
+    <li class="step"><input type="checkbox" id="s1" data-k="m1"><label for="s1"><span class="ttl">Módulos 1 e 2: retomada e C/C++ aplicado</span><span class="meta"><span class="chip c-info">dificuldade baixa</span></span><p>Diagnóstico rápido; você diz o que quer reforçar. <b>Projeto:</b> testador de pilhas v1, com o ADC calibrado contra o Fluke e medidas no osciloscópio.</p></label></li>
+    <li class="step"><input type="checkbox" id="s2" data-k="m3"><label for="s2"><span class="ttl">Módulo 3: arquitetura de microcontroladores</span><span class="meta"><span class="chip c-info">média</span></span><p>Timers, interrupções e registradores, comparando ATmega328P (AVR) e ESP32. <b>Projeto:</b> latência de interrupção medida com dois UNOs e o osciloscópio.</p></label></li>
+    <li class="step"><input type="checkbox" id="s3" data-k="m4"><label for="s3"><span class="ttl">Módulo 4: sensores e instrumentação</span><span class="meta"><span class="chip c-info">média</span></span><p>Condicionamento, ruído e temporização de aquisição. <b>Projeto:</b> registrador de temperatura e corrente com MAX6675, DS18B20, ACS712 e SCT-013, conferido contra o Fluke e o NI USB-6001.</p></label></li>
+    <li class="step"><input type="checkbox" id="s4" data-k="m5"><label for="s4"><span class="ttl">Módulo 5: comunicação entre dispositivos</span><span class="meta"><span class="chip c-info">média</span></span><p>UART, I2C e SPI entre dois UNOs e no registrador; CAN fica opcional. <b>Projeto:</b> SPI compartilhado (MAX6675, SD, DS3231, shield Ethernet) e orçamento de pinos, vistos no osciloscópio.</p></label></li>
+    <li class="step"><input type="checkbox" id="s5" data-k="m7"><label for="s5"><span class="ttl">Módulo 7: arquitetura e qualidade de firmware</span><span class="meta"><span class="chip c-warn">média a alta</span></span><p>Máquinas de estados, não bloqueante, watchdog e Git. <b>Projeto:</b> firmware modular versionado e bancada térmica de 30 V com controle liga-desliga.</p></label></li>
+    <li class="step"><input type="checkbox" id="s6" data-k="m6"><label for="s6"><span class="ttl">Módulo 6: plataformas e ambientes modernos</span><span class="meta"><span class="chip c-info">média</span></span><p>UNO R3 contra ESP32, CLI e VS Code, critérios de escolha.</p></label></li>
+    <li class="step"><input type="checkbox" id="s7" data-k="m8"><label for="s7"><span class="ttl">Módulo 8: conectividade e IoT</span><span class="meta"><span class="chip c-warn">média a alta</span></span><p>WiFi no ESP32 e Ethernet W5500 no UNO, MQTT e dashboards. Esta parte ainda precisa de pesquisa própria.</p></label></li>
     <li class="step"><input type="checkbox" id="s8" data-k="m9"><label for="s8"><span class="ttl">Módulo 9: sistemas embarcados avançados</span><span class="meta"><span class="chip c-bad">alta</span></span><p>OTA, energia, FreeRTOS e diagnóstico de sistema implantado.</p></label></li>
-    <li class="step"><input type="checkbox" id="s9" data-k="m10"><label for="s9"><span class="ttl">Módulo 10: projeto integrador</span><span class="meta"><span class="chip c-bad">alta</span></span><p>Sistema completo, escolhido em conjunto, dos requisitos à documentação.</p></label></li>
+    <li class="step"><input type="checkbox" id="s9" data-k="m10"><label for="s9"><span class="ttl">Módulo 10: projeto integrador</span><span class="meta"><span class="chip c-bad">alta</span></span><p>Registrador do ciclo de aquecimento de uma churrasqueira a carvão (temperatura em vários pontos), validado antes na bancada térmica, dos requisitos à documentação.</p></label></li>
   </ol>
   <p style="margin-top:12px;color:var(--muted);font-size:14px">Ao fim de cada módulo há uma avaliação; não avançamos se um conceito importante ficar frouxo.</p>
 </section>
 
-<section id="perguntas">
-  <h2>Para personalizar</h2>
-  <p class="sub">Responda aos poucos, na conversa.</p>
-  <ol class="q">
-    <li>Quais placas você já tem, Arduino e de outras marcas?</li>
-    <li>Quais sensores, módulos e instrumentos de bancada: osciloscópio, analisador lógico, multímetro?</li>
-    <li>Que tipo de sistema quer construir? Isso define o projeto integrador.</li>
-  </ol>
+<section id="material">
+  <h2>Material do projeto</h2>
+  <p class="sub">Arquivos do repositório. Abrem na página do GitHub, onde o Markdown aparece formatado.</p>
+  <div class="grid">
+    <article class="card">
+      <h3>Inventário e plano</h3>
+      <p>O que você tem na bancada, os cuidados registrados, o plano personalizado e as pendências.</p>
+      <p><a href="https://github.com/GilbertoMetzker/trilha-arduino/blob/main/inventario.md">Abrir inventario.md</a></p>
+    </article>
+    <article class="card">
+      <h3>Módulo 1: retomada e ADC</h3>
+      <p>Diagnóstico, teoria do ADC e cinco experimentos com o Fluke e o osciloscópio como referência.</p>
+      <p><a href="https://github.com/GilbertoMetzker/trilha-arduino/blob/main/modulos/modulo-01.md">Abrir modulo-01.md</a></p>
+    </article>
+  </div>
 </section>
 
 <section id="fontes">
